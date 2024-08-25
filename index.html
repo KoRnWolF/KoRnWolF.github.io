@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Follower Count Game</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f4;
+            color: #333;
+            margin: 0;
+            padding: 0;
+        }
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+            text-align: center;
+        }
+        h1 {
+            font-size: 2.5em;
+            margin-bottom: 10px;
+        }
+        p {
+            font-size: 1.2em;
+            margin-bottom: 20px;
+        }
+        .game-logo {
+            width: 200px;
+            margin: 20px auto;
+        }
+        .rules {
+            text-align: left;
+            margin: 20px 0;
+        }
+        .code-snippet {
+            background-color: #333;
+            color: #f4f4f4;
+            padding: 10px;
+            border-radius: 5px;
+            overflow-x: auto;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Welcome to the Follower Count Game!</h1>
+        <img src="logo.png" alt="Game Logo" class="game-logo">
+        <p>Test your knowledge by guessing which social media account has more followers. It's a fun and challenging game that will put your instincts to the test!</p>
+        
+        <h2>How to Play:</h2>
+        <div class="rules">
+            <p>In each round, you will be presented with two social media accounts. Your task is to guess which account has more followers.</p>
+            <ul>
+                <li>The game will compare "Candidate A" and "Candidate B".</li>
+                <li>You have to type either 'A' or 'B' to make your guess.</li>
+                <li>If you guess correctly, you move on to the next round with an updated score.</li>
+                <li>If you guess wrong, the game ends and your final score is displayed.</li>
+            </ul>
+        </div>
+
+        <h2>Game Code Overview:</h2>
+        <p>The game logic is implemented in Python. Here's a brief overview of the code:</p>
+        <div class="code-snippet">
+<pre><code>from game_data import data
+from random import randint
+from logo import logo, logo_vs
+from os import system
+
+candidate_a = data[randint(0, len(data))]
+cont_flag = True
+score = int()
+
+def check_followers():
+    a_followers = candidate_a['follower_count']
+    b_followers = candidate_b['follower_count']
+    if a_followers > b_followers:
+        return "a"
+    else:
+        return "b"
+
+def end_game():
+    system('cls')
+    print(logo)
+    print(f"You are wrong. Final Score : {score}")
+    exit()
+
+def check_answer(choice, largest_follower, candidate_b, candidate_a):
+    if choice == largest_follower:
+        print("You are right")
+        candidate_a = candidate_b
+        return candidate_a
+    else:
+        end_game()
+
+while cont_flag:
+    system('cls')
+    candidate_b = data[randint(0, len(data) - 1)]
+    if candidate_a == candidate_b:
+        candidate_b = data[randint(0, len(data) - 1)]
+        
+    print(logo)
+    if score > 0:
+        print(f"You're right! current score: {score}")
+    print(f"compare A : {candidate_a['name']}, {candidate_a['description']}, {candidate_a['country']}")
+    print(logo_vs)
+    print(f"compare B : {candidate_b['name']}, {candidate_b['description']}, {candidate_b['country']}")
+
+    largest_follower = check_followers()
+    choice = input("Who has more followers? Type 'A' or 'B':").lower()
+    candidate_a = check_answer(choice, largest_follower, candidate_b, candidate_a)
+    if choice == largest_follower:
+        score += 1</code></pre>
+        </div>
+
+        <p><strong>Note:</strong> This is a simple console-based game. If you want to play, you need to run the Python code locally on your machine.</p>
+    </div>
+</body>
+</html>
